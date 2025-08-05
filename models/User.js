@@ -4,10 +4,11 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    isAdmin: {type: Boolean,required: true, default: false},
 }, {timestamps: true});
 
-// mã hóa trước khi lưu
+// mã hóa trước password khi lưu
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 10);

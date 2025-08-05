@@ -10,9 +10,12 @@ connectDB(); // Kết nối MongoDB
 const app = express();
 app.use(cors());
 app.use(express.json());
+//route users
 const userRouter = require('./routes/userRoutes');
 app.use('/api/users', userRouter);
-
+//route products
+const productRouter = require('./routes/productRoutes');
+app.use('/api/products', productRouter);
 // Route test
 app.get('/', (req, res) => {
     res.send('API is running...');

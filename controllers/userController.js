@@ -12,7 +12,11 @@ const registerUser = async (req, res) => {
     const userExists = await User.findOne({email});
     if (userExists) return res.status(400).json({message: 'User already exists'});
 
-    const user = await User.create({name, email, password});
+    const user = await User.create({
+        name,
+        email,
+        password
+    });
 
     res.status(201).json({
         _id: user._id,
@@ -41,4 +45,14 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = {registerUser, loginUser};
+//GET api/users/profile
+const getUserProfile = async (req, res) => {
+    if (!req.user) return res.status(404).json({message: 'No user found.'});
+
+    res.json({
+        _id: req.user._id,
+        name: req.user.name,
+        email: req.user.email
+    });
+}
+module.exports = {registerUser, loginUser, getUserProfile};
